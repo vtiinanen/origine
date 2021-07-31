@@ -1,24 +1,24 @@
 .PHONY: all
-all: install
-
-NODE_INDEXJS=node index.js
+all: install serve
 
 .PHONY: install
-install:
-	@echo "Installing dependencies..."
+install: node_modules	
+
+node_modules: package.json
 	npm install
+	touch node_modules
 
 .PHONY: serve 
-serve:
+serve: node_modules
 	@echo "Serving..."
-	${NODE_INDEXJS}
+	node index.js
 
 .PHONY: debug
 debug:
 	@echo "Debugging..."
 	DEBUG=1 ${NODE_INDEXJS}
 
-.PHONY: clean
-clean:
-	@echo "Cleaning..."
-	rm -rf ./node_modules
+.PHONY: depclean
+depclean:
+	@echo "Cleaning dependencies..."
+	rm -rfv ./node_modules
